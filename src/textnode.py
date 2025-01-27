@@ -24,4 +24,4 @@ class TextNode:
         return text_eq and type_eq and url_eq
 
     def __repr__(self):
-        return f"{self.text}, {self.text_type.value}, {self.url}"
+        return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
