@@ -1,14 +1,11 @@
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 from textnode import TextNode, TextType
 
 
 def main() -> None:
-    new_node = TextNode("This is a text node", TextType.BOLD, "https://node.rip")
-    print(new_node)
     properties = {"href": "styles.css", "src": "scripts.js", "target": "_blank"}
-    new_html_node = HTMLNode(props=properties)
-    print(new_html_node.props_to_html())
-    print(new_html_node)
+    leaf = LeafNode(tag="p", value="This is text", props=properties)
+    print(leaf.to_html())
 
 
 if __name__ == "__main__":

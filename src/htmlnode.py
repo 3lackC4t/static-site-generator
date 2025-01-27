@@ -16,13 +16,14 @@ class HTMLNode:
 
     def props_to_html(self):
         if self.props:
+            print("Called")
             result = " ".join(
                 [f'{property}="{self.props[property]}"' for property in self.props]
             )
 
-            return result.rstrip()
+            return f" {result.rstrip()}"
         else:
-            raise Exception("HTMLNode has no properties")
+            return ""
 
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
@@ -52,3 +53,19 @@ class HTMLNode:
             )
         else:
             return False
+
+
+class LeafNode(HTMLNode):
+    def __init__(self, tag=None, value=None, children=None, props=None) -> None:
+        super().__init__(tag=tag, value=value, children=None, props=props)
+
+    def to_html(self):
+        if self.value:
+            if not self.tag:
+                return f"{self.value}"
+
+            properties = self.props_to_html()
+            print(properties)
+            return f"<{self.tag}{properties}>{self.value}</{self.tag}>"
+        else:
+            raise ValueError("Nonetype value detected.")
