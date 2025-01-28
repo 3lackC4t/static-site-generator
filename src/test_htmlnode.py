@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 
 class TestTextNode(unittest.TestCase):
@@ -27,9 +27,24 @@ class TestTextNode(unittest.TestCase):
             "target": "_blank",
         }
         node.props = properties
-        result_str = 'src="script.js" href="styles.css" target="_blank"'
+        result_str = ' src="script.js" href="styles.css" target="_blank"'
 
         self.assertEqual(node.props_to_html(), result_str)
+
+    def test_full_html_node_output(self):
+        node = LeafNode(
+            tag="h1",
+            value="The Final Heading",
+            props={
+                "style": "color: red; font_weight: heavy;",
+                "required": "",
+                "class": "leaf-test",
+                "id": "leaf-id",
+            },
+        )
+
+        result_str = '<h1 style="color: red; font_weight: heavy;" required class="leaf-test" id="leaf-id">The Final Heading</h1>'
+        self.assertEqual(node.to_html(), result_str)
 
 
 if __name__ == "__main__":
