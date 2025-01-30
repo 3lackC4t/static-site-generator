@@ -26,7 +26,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     if not text_type == TextType.NORMAL:
         return old_nodes
 
-    potential_nodes = old_nodes.split(delimiter)
+    potential_nodes = old_nodes.text.split(delimiter)
 
     if len(potential_nodes) % 2 == 0:
         return old_nodes
@@ -34,21 +34,25 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     result = []
 
     for node_index in range(len(potential_nodes)):
-        if node_index % 2 == 0:
-            result.append(TextNode(potential_nodes[node_index], TextType.NORMAL))
-        else:
-            match delimiter:
-                case "**":
-                    result.append(TextNode(potential_nodes[node_index], TextType.BOLD))
-                case "*":
-                    result.append(
-                        TextNode(potential_nodes[node_index], TextType.ITALIC)
-                    )
-                case "_":
-                    result.append(
-                        TextNode(potential_nodes[node_index], TextType.ITALIC)
-                    )
-                case "`":
-                    result.append(TextNode(potential_nodes[node_index], TextType.CODE))
-
+        if potential_nodes[node_index]:
+            if node_index % 2 == 0:
+                result.append(TextNode(potential_nodes[node_index], TextType.NORMAL))
+            else:
+                match delimiter:
+                    case "**":
+                        result.append(
+                            TextNode(potential_nodes[node_index], TextType.BOLD)
+                        )
+                    case "*":
+                        result.append(
+                            TextNode(potential_nodes[node_index], TextType.ITALIC)
+                        )
+                    case "_":
+                        result.append(
+                            TextNode(potential_nodes[node_index], TextType.ITALIC)
+                        )
+                    case "`":
+                        result.append(
+                            TextNode(potential_nodes[node_index], TextType.CODE)
+                        )
     return result
