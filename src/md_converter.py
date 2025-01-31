@@ -34,6 +34,36 @@ def text_node_to_html_node(text_node):
             )
 
 
+def split_nodes_image(nodes):
+    image_tuples = extract_markdown_images(nodes.text)
+
+    result = []
+    for pair in image_tuples:
+        alt_text, url = pair
+        for index, node in enumerate(nodes.text.split(f"![{alt_text}]({url})", 1)):
+            if node:
+                if index % 2 == 0:
+                    result.append(TextNode(node, TextType.NORMAL))
+                else:
+                    result.append(TextNode(alt_text, TextType.IMAGE, url))
+    return result
+
+
+def split_nodes_link(nodes):
+    link_tuples = extract_markdown_links(nodes.text)
+
+    result = []
+    for pair in link_tuples:
+        link_text, url = pair
+        for index, node in enumerate(nodes.text.split(f"![{link_text}]({url})", 1)):
+            if node:
+                if index % 2 == 0:
+                    result.append(TextNode(node, TextType.NORMAL))
+                else:
+                    result.append(TextNode(link_text, TextType.LINK, url))
+    return result
+
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     if not text_type == TextType.NORMAL:
         return old_nodes

@@ -1,9 +1,5 @@
+import md_converter
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from md_converter import (
-    extract_markdown_images,
-    extract_markdown_links,
-    split_nodes_delimiter,
-)
 from textnode import TextNode, TextType
 
 
@@ -34,23 +30,20 @@ def main() -> None:
         "required": "",
     }
 
-    nodes = [
-        TextNode("I'm normal text", TextType.NORMAL, url=""),
-        TextNode("I am bold text", TextType.BOLD, url=""),
-        TextNode("I'm fancy Text", TextType.ITALIC, url=""),
-        TextNode("I'm a code block", TextType.CODE, url=""),
-        TextNode("This is an anchor (link)", TextType.LINK, url="https://boot.dev"),
-        TextNode("This is an image", TextType.IMAGE, url="resources/image.png"),
-    ]
+    test_node = TextNode(
+        "This is an image ![image text](url_for_image) Disregard", TextType.NORMAL
+    )
 
-    for node in nodes:
-        print(text_node_to_html_node(node).to_html())
+    test_result = md_converter.extract_markdown_images(
+        "This is an image ![image_text](url_for_image) disregard"
+    )
 
-    test_string = "This is a string that contains **bolded** text"
-    split_nodes_delimiter(test_string, "**", TextType.BOLD)
+    print(test_result)
 
-    test_image = "This is a markdown line with an inline image ![Alt Text](https://image_and_stuff.org) and this is also a ![image_text](url)"
-    print(extract_markdown_images(test_image))
+    result_list = md_converter.split_nodes_image(test_node)
+
+    for node in result_list:
+        print(node)
 
 
 if __name__ == "__main__":
