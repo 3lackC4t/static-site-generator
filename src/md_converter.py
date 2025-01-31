@@ -1,5 +1,17 @@
+import re
+
 from htmlnode import LeafNode
 from textnode import TextNode, TextType
+
+
+def extract_markdown_images(text):
+    link_regex = r"!\[([^\[\]]+)\]\(([^()\s]+)\)"
+    return re.findall(link_regex, text)
+
+
+def extract_markdown_links(text):
+    link_regex = r"(?<!!)\[([^\[\]]+)\]\(([^()\s]+)\)"
+    return re.findall(link_regex, text)
 
 
 def text_node_to_html_node(text_node):

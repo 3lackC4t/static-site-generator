@@ -1,6 +1,11 @@
 import unittest
 
-from md_converter import split_nodes_delimiter, text_node_to_html_node
+from md_converter import (
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_delimiter,
+    text_node_to_html_node,
+)
 from textnode import TextNode, TextType
 
 
@@ -33,3 +38,14 @@ class TestNodeConverter(unittest.TestCase):
                 text_node_to_html_node(node).to_html(),
                 text_node_to_html_node(exp_result[index]).to_html(),
             )
+
+    def test_image_text(self):
+        string_to_be_tested = "[Hello] this is ![image_text](url) with a lot of !(traps) inside ![Don't worry] the [regex ]( should!) only return '(image_text, url)'"
+
+        self.assertEqual(
+            extract_markdown_images(string_to_be_tested), [("image_text", "url")]
+        )
+
+    def test_link_text(self):
+        string_to_be_tested = "[Hello] this is [a](link) that should only ![return](one) line which is '(a, link)'"
+        self.assertEqual(extract_markdown_links(string_to_be_tested), [("a", "link")])

@@ -1,5 +1,9 @@
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from md_converter import split_nodes_delimiter
+from md_converter import (
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_delimiter,
+)
 from textnode import TextNode, TextType
 
 
@@ -44,6 +48,9 @@ def main() -> None:
 
     test_string = "This is a string that contains **bolded** text"
     split_nodes_delimiter(test_string, "**", TextType.BOLD)
+
+    test_image = "This is a markdown line with an inline image ![Alt Text](https://image_and_stuff.org) and this is also a ![image_text](url)"
+    print(extract_markdown_images(test_image))
 
 
 if __name__ == "__main__":
