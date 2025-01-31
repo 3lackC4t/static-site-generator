@@ -1,6 +1,6 @@
 import unittest
 
-from node_converter import split_nodes_delimiter, text_node_to_html_node
+from md_converter import split_nodes_delimiter, text_node_to_html_node
 from textnode import TextNode, TextType
 
 

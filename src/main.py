@@ -1,5 +1,5 @@
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from node_converter import split_nodes_delimiter
+from md_converter import split_nodes_delimiter
 from textnode import TextNode, TextType
 
 
